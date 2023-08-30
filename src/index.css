@@ -1,0 +1,184 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+html,
+body {
+  /* border-r */
+  padding: 0;
+  margin: 0;
+  overflow-x: hidden;
+  font-family: 'Quicksand', sans-serif;
+  background-color: #f8f8f8;
+  min-height: 100vh;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  zoom: 92.5%;
+}
+
+body::-webkit-scrollbar {
+  width: 0.3em;
+}
+
+body::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: darkgrey;
+  outline: 1px solid slategrey;
+}
+
+.vgap--1x {
+  height: 0.1rem;
+}
+.vgap--2x {
+  height: 0.2rem;
+}
+.vgap--3x {
+  height: 0.3rem;
+}
+.vgap--4x {
+  height: 0.4rem;
+}
+.vgap--5x {
+  height: 0.5rem;
+}
+.vgap-1x {
+  height: 1rem;
+}
+.vgap-2x {
+  height: 2rem;
+}
+.vgap-3x {
+  height: 3rem;
+}
+.vgap-4x {
+  height: 4rem;
+}
+.vgap-5x {
+  height: 5rem;
+}
+
+.vgap-6x {
+  height: 6rem;
+}
+
+.vgap-7x {
+  height: 7rem;
+}
+
+.vgap-8x {
+  height: 8rem;
+}
+
+.vgap-9x {
+  height: 9rem;
+}
+
+.hgap--1x {
+  display: inline-block;
+  vertical-align: middle;
+  width: 0.1rem;
+}
+.hgap--2x {
+  display: inline-block;
+  vertical-align: middle;
+  width: 0.2rem;
+}
+.hgap--3x {
+  display: inline-block;
+  vertical-align: middle;
+  width: 0.3rem;
+}
+.hgap--4x {
+  display: inline-block;
+  vertical-align: middle;
+  width: 0.4rem;
+}
+.hgap--5x {
+  display: inline-block;
+  vertical-align: middle;
+  width: 0.5rem;
+}
+.hgap-1x {
+  display: inline-block;
+  vertical-align: middle;
+  width: 1rem;
+}
+.hgap-2x {
+  display: inline-block;
+  vertical-align: middle;
+  width: 2rem;
+}
+.hgap-3x {
+  display: inline-block;
+  vertical-align: middle;
+  width: 2rem;
+}
+.hgap-4x {
+  display: inline-block;
+  vertical-align: middle;
+  width: 4rem;
+}
+.hgap-5x {
+  display: inline-block;
+  vertical-align: middle;
+  width: 5rem;
+}
+
+.primary_bg{
+  background-color: #FC6A03;
+}
+
+.outline{
+  outline: 1px solid #FC6A03;
+}
+
+.secondary_bg{
+  background-color: #893101;
+}
+.label{
+  color:#893101 ;
+}
+
+.primary_text_color{
+  color: #893101;
+}
+
+.secondary_text_color{
+  color: #FC6A03;
+}
+
+.span{
+  padding: 0 10px;
+  border-bottom: #FC6A03 2px solid;
+}
+
+.category_bg{
+  background-color: #fda072;
+}
+
+.gray_outline{
+  outline: 1px solid darkgrey;
+}
+
+.matchedItem {
+  border: 1px solid #ccc; 
+  box-shadow: 2px 2px 8px rgba(0,0,0,0.2); 
+  padding: 10px;
+  margin: 10px;
+}
+
