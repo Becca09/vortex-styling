@@ -12,7 +12,6 @@ export const UploadToWardrobeModal = (props) => {
     const [categoriesAnchorEl, setcategoriesAnchorEl] = useState(null);
     const [seasonAnchorEl, setSeasonAnchorEl] = useState(null);
     const [occasionAnchorEl, setOccasionAnchorEl] = useState(null);
-    const [successModalOpen, setSuccessModalOpen] = useState(false);
     const [selectedSeasonOptions, setSelectedSeasonOptions] = useState([]);
     const [selectedOcassionOptions, setSelectedOcassionOptions] = useState([]);
     const [selectedCategoriesOptions, setSelectedCategoriesOptions] = useState([]);
@@ -77,21 +76,22 @@ export const UploadToWardrobeModal = (props) => {
   
     const handleUploadClick = async () => {
       const payload = {
-          imageURL: props.uploadedImage,
-          categories: selectedCategoriesOptions,
-          occasions: selectedOcassionOptions,
-          sizes: selectedSeasonOptions
+          image: props.uploadedImage,
+          category: selectedCategoriesOptions,
+          event: selectedOcassionOptions,
+          season: selectedSeasonOptions
       };
   
       const result = await uploadClothingData(payload);
       if (result) {
-          setSuccessModalOpen(true);
+       
+        console.log('good')
 
       }
   };
     async function uploadClothingData(data) {
       try {
-          const response = await fetch('https://dress-ai.onrender.com/add-cloth/', {
+          const response = await fetch("https://dress-ai.onrender.com/add-cloth/", {
               method: 'POST',
               headers: {
                   'Content-Type': 'application/json',

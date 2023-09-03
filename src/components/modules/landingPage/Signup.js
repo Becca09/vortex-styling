@@ -1,7 +1,7 @@
+/* eslint-disable jsx-a11y/heading-has-content */
 import React from "react";
 import Container from "../../layouts/common/Container";
 import Input from "../../ui/Input";
-import Dropdown from "../../ui/Dropdown";
 import Gap from "../../layouts/Gap";
 import { Button } from "../../ui/Button";
 

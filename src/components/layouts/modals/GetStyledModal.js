@@ -12,56 +12,88 @@ import { IoMdArrowDropdown } from "react-icons/io";
 import { AiOutlineClose } from "react-icons/ai";
 import Gap from "../Gap";
 import { Button } from "../../ui/Button";
-
+import { notification } from "antd";
+import { SuccessMatchModal } from "./SuceesMatchModal";
 
 export const GetStyledModal = (props) => {
   const [seasonAnchorEl, setSeasonAnchorEl] = useState(null);
   const [occasionAnchorEl, setOccasionAnchorEl] = useState(null);
+  const [selectedSeasonOption, setSelectedSeasonOption] = useState("");
+  const [selectedOccasionOption, setSelectedOccasionOption] = useState("");
+  const [successMatch, setSuccessMatchOpen] = useState(false);
+  const [matchedOutfits, setMatchedOutfits] = useState([]);
 
   const isSeasonOpen = Boolean(seasonAnchorEl);
   const isOccasionOpen = Boolean(occasionAnchorEl);
-
   const handleSeasonClick = (event) => {
     setSeasonAnchorEl(event.currentTarget);
   };
-
   const handleOccasionClick = (event) => {
     setOccasionAnchorEl(event.currentTarget);
   };
-
   const handleSeasonClose = () => {
     setSeasonAnchorEl(null);
   };
-
   const handleOccasionClose = () => {
     setOccasionAnchorEl(null);
   };
-
-  const [selectedSeasonOptions, setSelectedSeasonOptions] = useState([]);
-  const [selectedOcassionOptions, setSelectedOcassionOptions] = useState([]);
-
   const handleSeasonCheckboxChange = (event) => {
     const { value } = event.target;
-
-    setSelectedSeasonOptions((prevOptions) =>
-      prevOptions.includes(value)
-        ? prevOptions.filter((option) => option !== value)
-        : [...prevOptions, value]
-    );
+    setSelectedSeasonOption(value); // Simply set the value
   };
 
   const handleOccasionCheckboxChange = (event) => {
     const { value } = event.target;
-
-    setSelectedOcassionOptions((prevOptions) =>
-      prevOptions.includes(value)
-        ? prevOptions.filter((option) => option !== value)
-        : [...prevOptions, value]
-    );
+    setSelectedOccasionOption(value); // Simply set the value
   };
 
-  console.log("ocasson", selectedOcassionOptions);
-  console.log("season", selectedSeasonOptions);
+  const handleMatchOutfit = async () => {
+    const payload = {
+      event: selectedOccasionOption,
+      season: selectedSeasonOption,
+    };
+
+    const result = await matchingOutfitData(payload);
+    if (result && result.dress) {
+      setMatchedOutfits([result.dress]);
+      console.log(result.dress);
+      setSuccessMatchOpen(true);
+    }
+  };
+
+  async function matchingOutfitData(data) {
+    try {
+      const response = await fetch(
+        "https://dress-ai.onrender.com/generate-outfit/",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      );
+
+      const result = await response.json();
+      if (response.ok) {
+        setSuccessMatchOpen(true);
+        notification.success({
+          message: "Success",
+          description: "Successfully Matched!",
+        });
+        return result;
+      } else {
+        throw new Error(result.message || "Failed to match");
+      }
+    } catch (error) {
+      props.onClose();
+      notification.error({
+        message: "Error matchin",
+        description: error.message,
+      });
+      return null;
+    }
+  }
 
   return (
     <Dialog
@@ -105,7 +137,7 @@ export const GetStyledModal = (props) => {
                 <FormControlLabel
                   control={
                     <Checkbox
-                      checked={selectedSeasonOptions.includes(season)}
+                      checked={selectedSeasonOption === season}
                       onChange={handleSeasonCheckboxChange}
                       value={season}
                     />
@@ -116,12 +148,11 @@ export const GetStyledModal = (props) => {
             )
           )}
         </Menu>
-        <Gap h={3} />
         <div
           onClick={handleOccasionClick}
           className="my-3 gray_outline cursor-pointer px-3 py-2 mx-4 rounded primary_text_color flex flex-row justify-between"
         >
-          <span className="mt-2">Select an Occasion</span>
+          <span className="mt-2">Select an event</span>
           <IoMdArrowDropdown size={30} color="black" />
         </div>
         <Menu
@@ -145,7 +176,7 @@ export const GetStyledModal = (props) => {
               <FormControlLabel
                 control={
                   <Checkbox
-                    checked={selectedOcassionOptions.includes(occasion)}
+                    checked={selectedOccasionOption === occasion}
                     onChange={handleOccasionCheckboxChange}
                     value={occasion}
                   />
@@ -159,9 +190,14 @@ export const GetStyledModal = (props) => {
         <Button
           text={"Begin"}
           className="w-4/12 flex flex-row items-center justify-center mx-4"
-          onClick={props.onBegin}
+          onClick={handleMatchOutfit}
         />
       </DialogContent>
+      <SuccessMatchModal
+        open={successMatch}
+        onClose={() => setSuccessMatchOpen(false)}
+        matchedOutfits={matchedOutfits}
+      />
     </Dialog>
   );
 };

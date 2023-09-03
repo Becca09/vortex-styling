@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import NavBar from "../components/layouts/NavBar";
 import { BiArrowBack } from "react-icons/bi";
 import Gap from "../components/layouts/Gap";
@@ -6,33 +6,31 @@ import { useNavigate } from "react-router-dom";
 
 const SavedStyles = () => {
   const navigate = useNavigate();
+  const [savedStyles, setSavedStyles] = useState([]);
 
-  const savedMatches = [
-    {
-      matchId: 1,
-      images: ["./assets/skirt.png", "./assets/skirt.png"],
-    },
-    {
-      matchId: 2,
-      images: [
-        "./assets/skirt.png",
-        "./assets/skirt.png",
-        "./assets/skirt.png",
-        "./assets/skirt.png",
-        "./assets/skirt.png",
-      ],
-    },
+  useEffect(() => {
+    const fetchSavedStyles = async () => {
+      try {
+        const response = await fetch(
+          "https://dress-ai.onrender.com/get-styles/"
+        );
 
-    {
-      matchId: 1,
-      images: ["./assets/skirt.png", "./assets/skirt.png"],
-    },
+        if (response.ok) {
+          const data = await response.json();
+          setSavedStyles(data);
+        } else {
+          console.error(
+            "Failed to fetch saved styles. Status:",
+            response.status
+          );
+        }
+      } catch (error) {
+        console.error("Error fetching saved styles:", error);
+      }
+    };
 
-    {
-      matchId: 1,
-      images: ["./assets/skirt.png", "./assets/skirt.png"],
-    },
-  ];
+    fetchSavedStyles();
+  }, []);
 
   return (
     <div className="p-2">
@@ -54,22 +52,24 @@ const SavedStyles = () => {
         </div>
 
         <div className="flex flex-wrap justify-between my-10">
-    {savedMatches.map((match, index) => (
-        <div key={index} className="m-5 w-1/5 p-5 matchedItem shadow-md rounded-lg">
-            <div className="flex flex-wrap gap-4">
-                {match.images && match.images.map((imageSrc, imgIndex) => (
-                    <img
-                        key={imgIndex}
-                        src={imageSrc}
-                        alt={`outfit-${imgIndex}`}
-                        className="w-1/3"
-                    />
+          {Object.keys(savedStyles).map((styleKey, index) => (
+            <div
+              key={index}
+              className="m-5 w-1/5 p-5 matchedItem shadow-md rounded-lg"
+            >
+              <div className="flex flex-wrap gap-4">
+                {savedStyles[styleKey].map((imageSrc, imgIndex) => (
+                  <img
+                    key={imgIndex}
+                    src={imageSrc}
+                    alt={`outfit-${imgIndex}`}
+                    className="w-1/3"
+                  />
                 ))}
+              </div>
             </div>
+          ))}
         </div>
-    ))}
-</div>
-
       </div>
     </div>
   );

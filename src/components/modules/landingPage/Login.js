@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/heading-has-content */
 import React from 'react';
 import Container from "../../layouts/common/Container";
 import Input from "../../ui/Input";
